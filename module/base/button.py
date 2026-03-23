@@ -123,7 +123,7 @@ class Button(Resource):
 
     def match(self, image, offset=30, threshold=0.85, static=True) -> bool:
         self.ensure_template()
-        if static:
+        if static:#从截图里面，截取目标按钮对应的区域，再进行匹配
             if isinstance(offset, tuple):
                 if len(offset) == 2:
                     offset = np.array((-offset[0], -offset[1], offset[0], offset[1]))

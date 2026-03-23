@@ -9,6 +9,9 @@ from module.daemon.assets import (
     MAIN_STORY_NORMAL,
     MINIMAP_ENEMY_CIRCLE,
     MINIMAP_ENEMY_TRIANGLE,
+    MINIMAP_MAP_POINTER,
+    MINIMAP_ZOOM_ICON,
+    TEMPLATE_ENEMY_TARGET,
 )
 from module.daemon.daemon_base import DaemonBase
 from module.event.assets import FIELD_CHANGE
@@ -18,6 +21,8 @@ from module.tribe_tower.assets import NEXT_STAGE
 from module.ui.assets import FIGHT_QUICKLY_ENABLE, SKIP
 from module.ui.ui import UI
 
+class NoEnemyFoundError(Exception):
+    pass
 
 class SemiCombat(UI, DaemonBase):
     _minimap_enemy_search_rect_ratio = (0.326, 0.253, 0.666, 0.859)
@@ -195,20 +200,47 @@ class SemiCombat(UI, DaemonBase):
         return True
 
     def run(self):
+        #应该是先打开地图，开始找人，找到后点击位置，战斗。
         timeout = Timer(600, count=10)
         click_timer = Timer(0.3)
-
+        k=0
+        
         while 1:
             self.device.screenshot()
+            while 1:
+                if(self.appear_then_click(button=MINIMAP_ZOOM_ICON) #打开地图
+                and click_timer.reached()):
+                    click_timer.reset()
+                    continue
+                while 1:#找怪
+                    enemies_locs=TEMPLATE_ENEMY_TARGET.match_multi(self.device.image, similarity=0.75, threshold=6, name='MINIMAP_TRI')
+                    if(len(enemies_locs)==0):#没有敌人
+                        logger.error(NoEnemyFoundError)
+                    else:
+                        enemies_locs = sorted(enemies_locs, key=lambda b: (b.location[1], b.location[0]))
+                        target_index=k%len(enemies_locs)
+                        k+=2
+                        if(k>=len(enemies_locs)):
+                            k=k-len(enemies_locs)
+                        target_location=enemies_locs[target_index].location#TODO 这里可能需要缩放。
+                        #TODO 关闭地图
+                        break
+                #移动后进入战斗
+                if target_location:
+                    self.device.click_minitouch(target_location[0], target_location[1])
 
-            # 关闭地图
-            if (
-                self.config.SemiCombat_MainStoryMark
-                and click_timer.reached()
-                and self.appear_then_click(MAIN_STORY_MAP_CLOSE, offset=30, interval=1)
-            ):
-                click_timer.reset()
-                continue
+                else:
+                    continue
+
+
+
+
+
+
+
+
+
+
 
             # 快速战斗
             if (
