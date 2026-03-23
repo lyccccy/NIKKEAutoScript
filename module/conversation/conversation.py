@@ -171,6 +171,7 @@ class Conversation(UI):
         self.ensure_wait_to_answer(self.nikke_name)
 
     def ensure_wait_to_answer(self, nikke: str, skip_first_screenshot=True):
+        #TODO 如果日志>=20,就快速咨询
         logger.info(f'Communicate NIKKE {nikke}')
         confirm_timer = Timer(1.6, count=2).start()
         click_timer = Timer(0.9)
@@ -186,7 +187,16 @@ class Conversation(UI):
             #     confirm_timer.reset()
             #     click_timer.reset()
             #     continue
-
+            #快速咨询
+            if (
+                click_timer.reached()
+                and self.logs_quantity >= 20
+                and COMMUNICATE_QUICKLY.match_appear_on(self.device.image, threshold=6)
+                and self.appear_then_click(COMMUNICATE_QUICKLY, offset=5, interval=3)
+            ):
+                confirm_timer.reset()
+                click_timer.reset()
+                continue
             # 咨询
             if (
                 click_timer.reached()
