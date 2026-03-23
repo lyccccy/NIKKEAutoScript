@@ -225,10 +225,54 @@ class SemiCombat(UI, DaemonBase):
                         target_location=enemies_locs[target_index].location#TODO 这里可能需要缩放。
                         #TODO 关闭地图
                         break
-                #移动后进入战斗
+                #移动后进入战斗，
                 if target_location:
                     self.device.click_minitouch(target_location[0], target_location[1])
+                    self.device.sleep(10)
+                    skip_first_screenshot
+                    self.device.screenshot()
+                    while 1:
+                        if skip_first_screenshot:
+                            skip_first_screenshot = False
+                        if click_timer.reached() and self.appear_then_click(FIGHT, offset=30, interval=1, threshold=0.8):
+                            click_timer.reset()
+                            continue
 
+                        if click_timer.reached() and self.appear_then_click(AUTO_SHOOT, offset=10, threshold=0.9, interval=5):
+                            click_timer.reset()
+                            continue
+
+                        if click_timer.reached() and self.appear_then_click(AUTO_BURST, offset=10, threshold=0.9, interval=5):
+                            click_timer.reset()
+                            continue
+                                # 红圈
+                        if self.config.Optimization_AutoRedCircle and self.appear(PAUSE, offset=10):
+                            if self.handle_red_circles():
+                                continue
+
+                        if click_timer.reached() and self.appear_then_click(NEXT_STAGE, offset=10):
+                            self.device.sleep(5)
+                            self.device.stuck_record_clear()
+                            self.device.click_record_clear()
+                            click_timer.reset()
+                            continue
+
+                        if (
+                            click_timer.reached()
+                            and not self.appear(NEXT_STAGE, offset=10)
+                            and self.appear(END_CHECK, offset=30)
+                        ):
+                            while 1:
+                                self.device.screenshot()
+                                if not self.appear(END_CHECK, offset=30):
+                                    click_timer.reset()
+                                    break
+                                if self.appear_then_click(END_CHECK, offset=30, interval=1):
+                                    click_timer.reset()
+                                    continue
+                            click_timer.reset()
+                            continue
+                #需要用一个while循环
                 else:
                     continue
 
