@@ -345,3 +345,7 @@ class Conversation(UI):
         else:
             logger.info('There are no opportunities remaining')
         self.config.task_delay(server_update=True)
+
+if __name__ == '__main__':
+    b = Conversation('nkas', task='Conversation')
+    b.run()
