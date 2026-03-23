@@ -14,3 +14,9 @@ MAIN_STORY_MARK_IN = Button(area={'zh-CN': (346, 583, 374, 637), 'en-US': (346, 
 MAIN_STORY_MARK_OUT = Button(area={'zh-CN': (512, 1041, 534, 1090), 'en-US': (512, 1041, 534, 1090)}, color={'zh-CN': (157, 158, 158), 'en-US': (157, 158, 158)}, button={'zh-CN': (512, 1041, 534, 1090), 'en-US': (512, 1041, 534, 1090)}, file={'zh-CN': './assets/zh-CN/daemon/MAIN_STORY_MARK_OUT.png', 'en-US': './assets/zh-CN/daemon/MAIN_STORY_MARK_OUT.png'})
 MAIN_STORY_NORMAL = Button(area={'zh-CN': (522, 1153, 577, 1163), 'en-US': (522, 1153, 577, 1163)}, color={'zh-CN': (69, 193, 249), 'en-US': (69, 193, 249)}, button={'zh-CN': (522, 1153, 577, 1163), 'en-US': (522, 1153, 577, 1163)}, file={'zh-CN': './assets/zh-CN/daemon/MAIN_STORY_NORMAL.png', 'en-US': './assets/zh-CN/daemon/MAIN_STORY_NORMAL.png'})
 PLAY_HIGHLIGHTS = Button(area={'zh-CN': (467, 690, 518, 715), 'en-US': (467, 690, 518, 715)}, color={'zh-CN': (158, 222, 250), 'en-US': (158, 222, 250)}, button={'zh-CN': (467, 690, 518, 715), 'en-US': (467, 690, 518, 715)}, file={'zh-CN': './assets/zh-CN/daemon/PLAY_HIGHLIGHTS.png', 'en-US': './assets/zh-CN/daemon/PLAY_HIGHLIGHTS.png'})
+
+# Imported from DoroHelper FindText library. Replace with self-captured templates later.
+MINIMAP_MAP_POINTER = Template(file={'zh-CN': './assets/zh-CN/daemon/MINIMAP_MAP_POINTER.png', 'en-US': './assets/zh-CN/daemon/MINIMAP_MAP_POINTER.png'})
+MINIMAP_ZOOM_ICON = Template(file={'zh-CN': './assets/zh-CN/daemon/MINIMAP_ZOOM_ICON.png', 'en-US': './assets/zh-CN/daemon/MINIMAP_ZOOM_ICON.png'})
+MINIMAP_ENEMY_TRIANGLE = Template(file={'zh-CN': './assets/zh-CN/daemon/MINIMAP_ENEMY_TRIANGLE.png', 'en-US': './assets/zh-CN/daemon/MINIMAP_ENEMY_TRIANGLE.png'})
+MINIMAP_ENEMY_CIRCLE = Template(file={'zh-CN': './assets/zh-CN/daemon/MINIMAP_ENEMY_CIRCLE.png', 'en-US': './assets/zh-CN/daemon/MINIMAP_ENEMY_CIRCLE.png'})
